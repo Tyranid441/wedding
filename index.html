@@ -139,10 +139,11 @@ section{padding-block:clamp(64px,10vw,120px)}
 .steps{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:step}
 .steps li{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;color:var(--muted);counter-increment:step}
 .steps li::before{content:counter(step);font-family:var(--display);font-size:24px;line-height:1.1;color:var(--grape)}
-.share-wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(24px,4vw,48px);align-items:center}
-.qr-card{background:#F4F2EE;color:#141210;padding:22px;display:grid;gap:12px;justify-items:center;text-align:center;width:min(260px,100%);box-shadow:0 0 0 1px var(--rule)}
-.qr-card .qr{width:100%;aspect-ratio:1;display:grid;place-items:center}
-.qr-card .qr img,.qr-card .qr canvas{width:100%!important;height:auto!important}
+.share-wrap{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:clamp(24px,4vw,48px);align-items:center}
+.qr-card{background:#F4F2EE;color:#141210;padding:20px;display:grid;gap:12px;justify-items:center;text-align:center;width:100%;min-width:0;box-shadow:0 0 0 1px var(--rule)}
+.qr-card .qr{width:100%;max-width:100%;aspect-ratio:1;display:grid;place-items:center;overflow:hidden}
+.qr-card .qr img,.qr-card .qr canvas{display:block;width:100%!important;max-width:100%;height:auto!important}
+.qr-card .qr canvas+img{display:block}
 .qr-card small{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
 .qr-empty{width:100%;aspect-ratio:1;display:grid;place-items:center;border:1px dashed #B9AE98;color:#8A6A2B;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:16px}
 
@@ -170,6 +171,9 @@ footer p{opacity:.75;font-size:14px}
 footer .roman{opacity:1}
 
 /* ---------- responsive ---------- */
+@media (max-width:1060px) and (min-width:861px){
+  .share-wrap{grid-template-columns:minmax(0,1fr) 200px}
+}
 @media (max-width:860px){
   .cover,.story,.day,.info,.rsvp,.split{grid-template-columns:minmax(0,1fr)}
   .cover-photo{min-height:0;aspect-ratio:4/5;order:-1}
@@ -180,7 +184,7 @@ footer .roman{opacity:1}
 }
 @media (max-width:560px){
   .share-wrap{grid-template-columns:minmax(0,1fr)}
-  .qr-card{justify-self:center}
+  .qr-card{justify-self:center;width:min(240px,100%)}
   .facts{grid-template-columns:minmax(0,1fr)}
   .schedule li{grid-template-columns:88px minmax(0,1fr);gap:14px}
   .venue{padding:24px}
