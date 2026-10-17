@@ -63,39 +63,35 @@ nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:5px}
 .seal-anim{position:relative;width:min(300px,62vw);aspect-ratio:878/900}
 .seal-anim img{position:absolute;inset:0;width:100%;height:100%}
 /* Ouroboros, two laps. --p runs 0 -> 2 (one unit per lap); the head turns 360deg per lap.
-   Lap 1: the first frame is the head alone at the top. As it travels, the snake is revealed behind it:
-   the pointed tail first (where the head began), then the body (snake-coil.png). At the top it bites
-   the tail. Lap 2: it keeps going, swallowing the tail and then its own body. Behind the head the
-   body becomes the original thick body (snake-coil2.png); ahead of it, the rest of the tail still
-   waits (up to 68deg, where the tail meets the body). It ends on the original seal, which settles in
-   under the head over the last moment. All boundaries sit under the head. Angles: clockwise from top.
-     A = 360(p-1) - 1  (behind the head, lap 2)     B = 360p - 1  (reveal edge, lap 1)
-     G = huge while p < 1, 0 after                   */
+   Lap 1: the first frame is the head alone at the top. As it travels, the snake appears behind it on a
+   stationary layer (snake-coil.png): the pointed tail first, where the head began, then the body.
+   At the top it bites the tail.
+   Lap 2: the whole snake slithers round as one piece (it rotates with the head, so the neck and the
+   narrowing near the mouth stay with the head and the ring keeps its width everywhere else), while
+   the tail in its mouth is swallowed: a sequence of tail shapes morphs from the pointed tail into
+   the original seal's tail (snake-tail.webp, 37 frames). It ends exactly on the original seal.
+   The two lap layers are identical where they hand over (p = 1), so the switch is invisible. */
 @property --p{syntax:'<number>';inherits:false;initial-value:2}
 .seal-anim .snake{position:absolute;inset:0;animation:snake-in .5s ease .2s both}
-.seal-anim .snake img,.seal-anim .turn{position:absolute;inset:0;width:100%;height:100%}
+.seal-anim .snake img,.seal-anim .turn,.seal-anim .lap2{position:absolute;inset:0;width:100%;height:100%}
 .seal-anim .turn img{position:absolute;inset:0;width:100%;height:100%}
-.seal-anim .turn,.seal-anim .coil,.seal-anim .coil2{--p:2;animation:ouroboros 9s linear .5s both}
+.seal-anim .turn,.seal-anim .coil,.seal-anim .lap2{--p:2;animation:ouroboros 9s linear .5s both}
 .seal-anim .turn{transform-origin:49.94% 51.06%;transform:rotate(calc(var(--p) * 360deg));will-change:transform}
 .seal-anim .coil{
-  --a:max(0deg,calc(360deg * (var(--p) - 1) - 1deg));
-  --e:min(max(0deg,calc(360deg * var(--p) - 1deg)),calc(68deg + max(0,1 - var(--p)) * 100000deg));
-  -webkit-mask-image:conic-gradient(from 0deg at 49.94% 51.06%,transparent var(--a),#000 var(--a),#000 var(--e),transparent var(--e));
-  mask-image:conic-gradient(from 0deg at 49.94% 51.06%,transparent var(--a),#000 var(--a),#000 var(--e),transparent var(--e))}
-.seal-anim .coil2{
-  --a:max(0deg,calc(360deg * (var(--p) - 1) - 1deg));
-  --g:calc(68deg + max(0,1 - var(--p)) * 100000deg);
-  -webkit-mask-image:conic-gradient(from 0deg at 49.94% 51.06%,#000 var(--a),transparent var(--a),transparent var(--g),#000 var(--g));
-  mask-image:conic-gradient(from 0deg at 49.94% 51.06%,#000 var(--a),transparent var(--a),transparent var(--g),#000 var(--g))}
-.seal-anim .original{position:absolute;inset:0;width:100%;height:100%;animation:settle 9s linear .5s both}
+  --e:min(360deg,max(0deg,calc(360deg * var(--p) - 1deg)),max(0deg,calc((1 - var(--p)) * 10000000deg)));
+  -webkit-mask-image:conic-gradient(from 0deg at 49.94% 51.06%,#000 var(--e),transparent var(--e));
+  mask-image:conic-gradient(from 0deg at 49.94% 51.06%,#000 var(--e),transparent var(--e))}
+.seal-anim .lap2{opacity:clamp(0,calc((var(--p) - 0.99999) * 10000000),1)}
+.seal-anim .tailseq{position:absolute;left:48.3333%;top:0;width:51.6667%;height:42.6016%;
+  background:url(img/snake-tail.webp) 100% 0/3700% 100% no-repeat;animation:tailmorph 9s linear .5s both}
 /* jaw: -6deg closed on the thin tail, 0 = the original (closed on the body), positive = open */
 .seal-anim .jaw{transform-origin:46.7% 10.66%;animation:chomp 9s linear .5s both}
 @keyframes ouroboros{
   0%{--p:0;animation-timing-function:cubic-bezier(.45,.05,.6,.8)}
   50%{--p:1;animation-timing-function:cubic-bezier(.4,.2,.55,.95)}
   100%{--p:2}}
+@keyframes tailmorph{0%,50%{background-position:0% 0;animation-timing-function:steps(37,jump-none)}100%{background-position:100% 0}}
 @keyframes snake-in{from{opacity:0}to{opacity:1}}
-@keyframes settle{0%,95%{opacity:0}100%{opacity:1}}
 @keyframes chomp{
   0%{transform:rotate(-6deg);animation-timing-function:ease-in-out}
   7%{transform:rotate(10deg);animation-timing-function:ease-in-out}
@@ -105,11 +101,11 @@ nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:5px}
   39%{transform:rotate(13deg);animation-timing-function:ease-in-out}
   46%{transform:rotate(13deg);animation-timing-function:ease-in}
   50%{transform:rotate(-6deg);animation-timing-function:ease-in-out}
-  58%{transform:rotate(10deg);animation-timing-function:ease-in-out}
-  66%{transform:rotate(0deg);animation-timing-function:ease-in-out}
-  74%{transform:rotate(10deg);animation-timing-function:ease-in-out}
-  82%{transform:rotate(0deg);animation-timing-function:ease-in-out}
-  90%{transform:rotate(12deg);animation-timing-function:ease-in-out}
+  58%{transform:rotate(9deg);animation-timing-function:ease-in-out}
+  66%{transform:rotate(-4deg);animation-timing-function:ease-in-out}
+  74%{transform:rotate(9deg);animation-timing-function:ease-in-out}
+  82%{transform:rotate(-2deg);animation-timing-function:ease-in-out}
+  90%{transform:rotate(11deg);animation-timing-function:ease-in-out}
   97%,100%{transform:rotate(0deg)}}
 .names{font-family:var(--display);font-weight:400;font-size:clamp(44px,6vw,84px);line-height:.95;margin:0;letter-spacing:-.015em}
 .names .amp{font-style:italic;color:var(--gold-lt);font-size:.8em;padding:0 .08em}
@@ -267,7 +263,7 @@ footer .roman{opacity:1}
   .venue{padding:24px}
   .count{gap:20px}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}.seal-anim .snake,.seal-anim .turn,.seal-anim .coil,.seal-anim .coil2,.seal-anim .jaw,.seal-anim .original{animation:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.seal-anim .snake,.seal-anim .turn,.seal-anim .coil,.seal-anim .lap2,.seal-anim .tailseq,.seal-anim .jaw{animation:none}}
 </style>
 </head>
 <body>
@@ -281,15 +277,17 @@ footer .roman{opacity:1}
     <div class="seal">
       <div class="seal-anim" role="img" aria-label="Our seal: an interlaced S and G inside a golden serpent ring, dated VI.XVIII.MMXXVII">
         <div class="snake">
-          <img class="coil2" src="img/snake-coil2.png" alt="" width="300" height="307">
           <img class="coil" src="img/snake-coil.png" alt="" width="300" height="307">
           <div class="turn">
+            <div class="lap2">
+              <img class="body2" src="img/snake-body.png" alt="" width="300" height="307">
+              <div class="tailseq"></div>
+            </div>
             <img class="jaw" src="img/snake-jaw.png" alt="" width="300" height="307">
             <img class="head" src="img/snake-head.png" alt="" width="300" height="307">
           </div>
         </div>
         <img class="letters" src="img/seal-letters.png" alt="" width="300" height="307">
-        <img class="original" src="img/seal-original.png" alt="" width="300" height="307">
       </div>
       <h1 class="names">Gillian <span class="amp">&amp;</span> Sean</h1>
     </div>
