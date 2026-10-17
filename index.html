@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="apple-touch-icon" href="img/favicon.png">
 <meta property="og:title" content="Gillian &amp; Sean · June 18, 2027">
-<meta property="og:image" content="img/logo.png">
+<meta property="og:image" content="https://tyranid441.github.io/wedding/img/logo.png">
 <title>Gillian &amp; Sean</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -121,6 +121,31 @@ section{padding-block:clamp(64px,10vw,120px)}
 .rsvp-text h2 em{color:var(--gold-lt)}
 .rsvp-text p{opacity:.85}
 .rsvp-by{font-family:var(--display);font-style:italic;font-size:22px}
+.rsvp-text{align-content:start;padding-block:64px}
+.form-card{background:#F4F2EE;color:#141210;padding:clamp(20px,3vw,32px);min-height:180px;display:grid;align-content:start}
+.form-card iframe{display:block;width:100%;border:0;min-height:520px}
+.waiting{display:grid;gap:10px;justify-items:start}
+.waiting .soon{color:#8A6A2B;margin:0}
+.waiting p{color:#5F5850;font-size:15px;opacity:1}
+
+/* ---------- honeymoon / playlist / share ---------- */
+.split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,80px);align-items:start}
+.split .eyebrow{color:var(--grape);margin-bottom:14px}
+.split-body{display:grid;gap:20px;align-content:start}
+.split-body p{color:var(--muted)}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--bg)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:step}
+.steps li{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;color:var(--muted);counter-increment:step}
+.steps li::before{content:counter(step);font-family:var(--display);font-size:24px;line-height:1.1;color:var(--grape)}
+.share-wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(24px,4vw,48px);align-items:center}
+.qr-card{background:#F4F2EE;color:#141210;padding:22px;display:grid;gap:12px;justify-items:center;text-align:center;width:min(260px,100%);box-shadow:0 0 0 1px var(--rule)}
+.qr-card .qr{width:100%;aspect-ratio:1;display:grid;place-items:center}
+.qr-card .qr img,.qr-card .qr canvas{width:100%!important;height:auto!important}
+.qr-card small{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
+.qr-empty{width:100%;aspect-ratio:1;display:grid;place-items:center;border:1px dashed #B9AE98;color:#8A6A2B;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:16px}
+.spotify-frame{width:100%;border:0;border-radius:12px;display:block}
 
 /* ---------- gallery ---------- */
 .gal-head{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px;margin-bottom:36px}
@@ -146,7 +171,7 @@ footer .roman{opacity:1}
 
 /* ---------- responsive ---------- */
 @media (max-width:860px){
-  .cover,.story,.day,.info,.rsvp{grid-template-columns:minmax(0,1fr)}
+  .cover,.story,.day,.info,.rsvp,.split{grid-template-columns:minmax(0,1fr)}
   .cover-photo{min-height:0;aspect-ratio:4/5;order:-1}
   .cover-text{padding-left:var(--gut-l);padding-right:var(--gut-r)}
   .story-text{position:static}
@@ -154,6 +179,8 @@ footer .roman{opacity:1}
   .rsvp-text{padding-left:var(--gut-l);padding-right:var(--gut-r)}
 }
 @media (max-width:560px){
+  .share-wrap{grid-template-columns:minmax(0,1fr)}
+  .qr-card{justify-self:center}
   .facts{grid-template-columns:minmax(0,1fr)}
   .schedule li{grid-template-columns:88px minmax(0,1fr);gap:14px}
   .venue{padding:24px}
@@ -168,7 +195,7 @@ footer .roman{opacity:1}
 <header class="cover" id="top">
   <div class="cover-text">
     <nav aria-label="Sections">
-      <a href="#story">Our story</a><a href="#day">The day</a><a href="#travel">Travel</a><a href="#rsvp">RSVP</a><a href="#photos">Photos</a>
+      <a href="#story">Our story</a><a href="#day">The day</a><a href="#travel">Travel</a><a href="#rsvp">RSVP</a><a href="#honeymoon">Honeymoon</a><a href="#playlist">Playlist</a><a href="#photos">Gallery</a><a href="#share">Share photos</a>
     </nav>
     <div class="seal">
       <img src="img/logo.png" alt="Our seal: an interlaced S and G inside a golden serpent ring, dated VI.XVIII.MMXXVII" width="300" height="307">
@@ -261,9 +288,41 @@ footer .roman{opacity:1}
     <img src="img/1057.jpg" alt="Gillian and Sean smiling at each other, drinks in hand, in a gilded dining room" loading="lazy" style="object-position:50% 30%">
     <div class="rsvp-text">
       <div class="eyebrow" style="opacity:.75">RSVP</div>
-      <h2>Save the <em>date</em></h2>
+      <h2>Kindly <em>reply</em></h2>
       <p class="rsvp-by">Friday, June 18, 2027</p>
-      <p>Formal invitations with RSVP details will follow. For now, please mark your calendar. We can’t wait to celebrate with you.</p>
+      <p>Let us know if you can make it, who’s coming with you, and anything we should know about food. One reply per invitation is perfect.</p>
+      <div class="form-card" id="rsvp-card">
+        <div class="waiting">
+          <span class="soon">Opening soon</span>
+          <p>Our RSVP form opens when the invitations go out. Check back here then.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="honeymoon">
+    <div class="wrap split">
+      <div>
+        <div class="eyebrow">Gifts</div>
+        <h2>The <em>honeymoon</em> fund</h2>
+      </div>
+      <div class="split-body">
+        <p>Having you there is the best gift we could ask for. If you’d like to give something more, we’d love help making memories on our honeymoon.</p>
+        <div class="btn-row" id="honeyfund-slot"><span class="soon" style="margin:0">Link coming soon</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="playlist" class="alt">
+    <div class="wrap split">
+      <div>
+        <div class="eyebrow">The dance floor</div>
+        <h2>Pick the <em>songs</em></h2>
+      </div>
+      <div class="split-body">
+        <p>Help us build the playlist for the reception. Add the songs that will get you on the dance floor, and we’ll make sure the DJ sees them.</p>
+        <div id="spotify-slot"><span class="soon" style="margin:0">Playlist coming soon</span></div>
+      </div>
     </div>
   </section>
 
@@ -277,6 +336,32 @@ footer .roman{opacity:1}
         <p>Tap any photo to see it larger.</p>
       </div>
       <div class="gallery" id="gallery"></div>
+    </div>
+  </section>
+
+  <section id="share" class="alt">
+    <div class="wrap split">
+      <div>
+        <div class="eyebrow">On the day</div>
+        <h2>Be our <em>photographer</em></h2>
+      </div>
+      <div class="split-body">
+        <div class="share-wrap">
+          <div class="split-body">
+            <p>We want to see the wedding through your eyes. Add your photos and videos to our shared album, during the day or after.</p>
+            <ol class="steps">
+              <li>Scan the code, or tap the button on your phone.</li>
+              <li>Add your photos and videos to the album.</li>
+              <li>Look for the same code on the tables at the reception.</li>
+            </ol>
+            <div class="btn-row" id="album-slot"><span class="soon" style="margin:0">Album opens closer to the day</span></div>
+          </div>
+          <div class="qr-card">
+            <div class="qr" id="album-qr"><div class="qr-empty">QR code coming soon</div></div>
+            <small>Scan to share photos</small>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </main>
@@ -297,6 +382,53 @@ footer .roman{opacity:1}
 </div>
 
 <script>
+/* Links for the guest features. Paste each link between the quotes; the section switches on by itself. */
+var LINKS = {
+  rsvpTally:       "",  // Tally form link, e.g. https://tally.so/r/abc123
+  honeyfund:       "",  // Honeyfund page link
+  photoAlbum:      "",  // shared photo album link (Google Photos, etc.)
+  spotifyPlaylist: "",  // Spotify playlist link
+  spotifyInvite:   ""   // Spotify "invite collaborators" link
+};
+
+(function(){
+  function el(tag, attrs, text){var e=document.createElement(tag); for(var k in attrs){e.setAttribute(k,attrs[k]);} if(text)e.textContent=text; return e;}
+  function linkBtn(href, label, ghost){var a=el('a',{href:href,target:'_blank',rel:'noopener',class:'btn'+(ghost?' ghost':'')},label); return a;}
+  function loadScript(src, done){var s=document.createElement('script'); s.src=src; s.onload=done; document.head.appendChild(s);}
+
+  // RSVP (Tally)
+  var tallyId=(LINKS.rsvpTally.match(/tally\.so\/(?:r|embed)\/([A-Za-z0-9]+)/)||[])[1];
+  if(tallyId){
+    var card=document.getElementById('rsvp-card'); card.textContent='';
+    card.appendChild(el('iframe',{'data-tally-src':'https://tally.so/embed/'+tallyId+'?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1',loading:'lazy',width:'100%',height:'520',title:'RSVP form'}));
+    loadScript('https://tally.so/widgets/embed.js',function(){ if(window.Tally)window.Tally.loadEmbeds(); });
+  }
+
+  // Honeyfund
+  if(LINKS.honeyfund){var h=document.getElementById('honeyfund-slot'); h.textContent=''; h.appendChild(linkBtn(LINKS.honeyfund,'Visit our honeymoon fund →'));}
+
+  // Spotify
+  var sp=(LINKS.spotifyPlaylist.match(/playlist\/([A-Za-z0-9]+)/)||[])[1];
+  if(sp){
+    var slot=document.getElementById('spotify-slot'); slot.textContent='';
+    slot.appendChild(el('iframe',{src:'https://open.spotify.com/embed/playlist/'+sp+'?utm_source=generator&theme=0',class:'spotify-frame',height:'380',loading:'lazy',allow:'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture',title:'Our wedding playlist on Spotify'}));
+    var row=el('div',{class:'btn-row',style:'margin-top:16px'});
+    if(LINKS.spotifyInvite) row.appendChild(linkBtn(LINKS.spotifyInvite,'Add your songs →'));
+    row.appendChild(linkBtn(LINKS.spotifyPlaylist,'Open in Spotify',true));
+    slot.appendChild(row);
+    if(LINKS.spotifyInvite) slot.appendChild(el('p',{style:'margin-top:12px;font-size:14px'},'Adding songs needs a free Spotify account.'));
+  }
+
+  // Shared photo album + QR
+  if(LINKS.photoAlbum){
+    var a=document.getElementById('album-slot'); a.textContent=''; a.appendChild(linkBtn(LINKS.photoAlbum,'Open the shared album →'));
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js',function(){
+      var q=document.getElementById('album-qr'); q.textContent='';
+      try{ new QRCode(q,{text:LINKS.photoAlbum,width:512,height:512,colorDark:'#000000',colorLight:'#F4F2EE',correctLevel:QRCode.CorrectLevel.M}); }catch(e){ q.appendChild(el('div',{class:'qr-empty'},'Use the button to open the album')); }
+    });
+  }
+})();
+
 (function(){
   // Countdown to the wedding (Central Time)
   var target=new Date('2027-06-18T14:00:00-05:00');
