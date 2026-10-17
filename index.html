@@ -25,14 +25,15 @@
   --gold:#A88744;        /* the seal's gold */
   --gold-lt:#CBA762;
   --rule:#CFC8BA;
+  --card:#FBFAF7;        /* stationery card */
   --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
   --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
   --gut-l:max(16px,env(safe-area-inset-left,0px));
   --gut-r:max(16px,env(safe-area-inset-right,0px));
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0F0E0C;--surface:#1A1815;--ink:#ECE8E0;--muted:#A79F92;--vine:#000000;--on-vine:#F2EFE8;--grape:#CBA762;--gold:#A88744;--gold-lt:#CBA762;--rule:#34302A;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0F0E0C;--surface:#1A1815;--ink:#ECE8E0;--muted:#A79F92;--vine:#000000;--on-vine:#F2EFE8;--grape:#CBA762;--gold:#A88744;--gold-lt:#CBA762;--rule:#34302A;color-scheme:dark}
+  --bg:#0F0E0C;--surface:#1A1815;--ink:#ECE8E0;--muted:#A79F92;--vine:#000000;--on-vine:#F2EFE8;--grape:#CBA762;--gold:#A88744;--gold-lt:#CBA762;--rule:#34302A;--card:#15130F;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F0E0C;--surface:#1A1815;--ink:#ECE8E0;--muted:#A79F92;--vine:#000000;--on-vine:#F2EFE8;--grape:#CBA762;--gold:#A88744;--gold-lt:#CBA762;--rule:#34302A;--card:#15130F;color-scheme:dark}
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -43,7 +44,11 @@ img{max-width:100%;display:block}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--grape);outline-offset:3px}
 .wrap{max-width:1180px;margin:0 auto;padding-left:var(--gut-l);padding-right:var(--gut-r)}
-.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.eyebrow{font-family:var(--display);font-size:13px;letter-spacing:.3em;text-transform:uppercase;font-weight:500}
+/* engraved divider: double gold rule with the serpent ring at its centre */
+.flourish{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:18px;margin:0 auto clamp(40px,6vw,64px);max-width:560px}
+.flourish span{height:5px;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);opacity:.85}
+.flourish img{width:40px;height:auto}
 h2{font-family:var(--display);font-weight:400;font-size:clamp(36px,5.5vw,64px);line-height:1.02;margin:0;text-wrap:balance;letter-spacing:-.01em}
 h2 em{font-style:italic;color:var(--grape)}
 p{margin:0;max-width:62ch}
@@ -52,19 +57,23 @@ p{margin:0;max-width:62ch}
 .cover{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);background:var(--vine);color:var(--on-vine)}
 .cover-text{display:flex;flex-direction:column;justify-content:space-between;gap:48px;padding-block:28px 40px;padding-left:max(28px,env(safe-area-inset-left,0px));padding-right:28px}
 nav{display:flex;flex-wrap:wrap;gap:6px 22px}
-nav a{font-size:12px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;opacity:.8;font-weight:500}
+nav a{font-family:var(--display);font-size:12px;letter-spacing:.26em;text-transform:uppercase;text-decoration:none;opacity:.8;font-weight:500}
 nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:5px}
 .seal{display:grid;justify-items:start;gap:28px}
-.seal img{width:min(300px,62vw);height:auto}
+.seal-anim{position:relative;width:min(300px,62vw);aspect-ratio:878/900}
+.seal-anim img{position:absolute;inset:0;width:100%;height:100%}
+@property --sweep{syntax:'<angle>';inherits:false;initial-value:360deg}
+.seal-anim .ring{--sweep:360deg;-webkit-mask-image:conic-gradient(from -14deg at 50% 50%,#000 var(--sweep),transparent 0);mask-image:conic-gradient(from -14deg at 50% 50%,#000 var(--sweep),transparent 0);animation:draw-ring 2.8s cubic-bezier(.55,.06,.25,1) .25s both}
+@keyframes draw-ring{from{--sweep:0deg}to{--sweep:360deg}}
 .names{font-family:var(--display);font-weight:400;font-size:clamp(44px,6vw,84px);line-height:.95;margin:0;letter-spacing:-.015em}
 .names .amp{font-style:italic;color:var(--gold-lt);font-size:.8em;padding:0 .08em}
 .roman{font-family:var(--display);letter-spacing:.24em;font-size:15px;color:var(--gold-lt)}
-.cover-meta{display:grid;gap:20px;border-top:1px solid var(--gold);padding-top:22px}
+.cover-meta{display:grid;gap:20px;border-top:3px double var(--gold);padding-top:22px}
 .cover-meta .date{font-family:var(--display);font-size:clamp(22px,2.4vw,30px);font-style:italic}
 .cover-meta .place{font-size:15px;opacity:.85}
 .count{display:flex;gap:28px;font-variant-numeric:tabular-nums}
 .count b{display:block;font-family:var(--display);font-weight:400;font-size:36px;line-height:1;color:var(--gold-lt)}
-.count small{font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+.count small{font-family:var(--display);font-size:11px;letter-spacing:.26em;text-transform:uppercase;opacity:.7}
 .cover-photo{position:relative;min-height:560px}
 .cover-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 97%}
 .cover-photo figcaption{position:absolute;left:16px;bottom:14px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#F2EFE8;background:rgba(0,0,0,.6);padding:6px 10px}
@@ -98,13 +107,27 @@ section{padding-block:clamp(64px,10vw,120px)}
 .schedule .t.tbd{font-size:15px;font-family:var(--body);color:var(--muted);padding-top:5px}
 .schedule h3{margin:0 0 4px;font-size:17px;font-weight:600}
 .schedule p{color:var(--muted);font-size:15px}
-.venue{background:var(--surface);padding:32px;display:grid;gap:16px;align-content:start}
+.venue{background:var(--card);border:3px double var(--gold);padding:32px;display:grid;gap:16px;align-content:start}
 .venue h3{font-family:var(--display);font-weight:400;font-size:32px;line-height:1.1;margin:0}
 .venue address{font-style:normal;color:var(--muted)}
 .btn{display:inline-flex;align-items:center;gap:10px;justify-self:start;background:var(--vine);color:var(--on-vine);text-decoration:none;padding:13px 20px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;border:0;cursor:pointer;font-family:var(--body)}
 .btn:hover{background:var(--gold);color:#000}
 .venue .note{font-size:14px;color:var(--muted);border-top:1px solid var(--rule);padding-top:16px}
 
+/* ---------- concierge card ---------- */
+.concierge-head{display:grid;gap:14px;justify-items:center;text-align:center;margin-bottom:40px}
+.concierge-head .eyebrow{color:var(--grape)}
+.concierge{max-width:860px;margin:0 auto;background:var(--card);border:3px double var(--gold);padding:clamp(28px,5vw,56px) clamp(20px,5vw,64px);display:grid;gap:28px}
+.cc-crest{display:grid;justify-items:center;gap:8px;text-align:center}
+.cc-crest img{width:46px;height:auto}
+.cc-crest b{font-family:var(--display);font-weight:500;font-size:15px;letter-spacing:.42em;text-transform:uppercase;padding-left:.42em}
+.cc-crest small{font-family:var(--display);font-style:italic;font-size:16px;color:var(--muted)}
+.cc-list{margin:0;display:grid;border-top:1px solid var(--rule)}
+.cc-list>div{display:grid;grid-template-columns:200px minmax(0,1fr);gap:8px 28px;padding-block:20px;border-bottom:1px solid var(--rule)}
+.cc-list dt{font-family:var(--display);font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--grape);padding-top:3px}
+.cc-list dd{margin:0;color:var(--muted);font-size:16px;display:grid;gap:8px;justify-items:start}
+.cc-list dd strong{font-family:var(--display);font-weight:500;font-size:20px;color:var(--ink);line-height:1.2}
+.cc-sign{text-align:center;font-family:var(--display);font-style:italic;color:var(--muted);font-size:17px;margin:0 auto}
 /* ---------- travel / good to know ---------- */
 .alt{background:var(--surface)}
 .info{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(32px,6vw,80px)}
@@ -149,13 +172,20 @@ section{padding-block:clamp(64px,10vw,120px)}
 
 
 /* ---------- gallery ---------- */
-.gal-head{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px;margin-bottom:36px}
-.gal-head .eyebrow{color:var(--grape);margin-bottom:14px}
-.gal-head p{color:var(--muted);font-size:15px}
-.gallery{columns:3 280px;column-gap:14px}
-.gallery button{display:block;width:100%;margin:0 0 14px;padding:0;border:0;background:none;cursor:zoom-in;break-inside:avoid}
-.gallery img{width:100%;height:auto;transition:opacity .25s}
-.gallery button:hover img{opacity:.85}
+.gallery-band{background:var(--vine);color:var(--on-vine)}
+.gal-head{display:grid;gap:14px;justify-items:center;text-align:center;margin-bottom:56px}
+.gal-head .eyebrow{color:var(--gold-lt)}
+.gal-head h2 em{color:var(--gold-lt)}
+.gal-head p{color:#A79F92;font-size:16px;font-family:var(--display);font-style:italic;margin:0 auto}
+.gal-group{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:18px;margin:8px 0 36px;font-family:var(--display);font-weight:400;font-size:14px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold-lt)}
+.gal-group::before,.gal-group::after{content:"";height:5px;border-top:1px solid #6E5A30;border-bottom:1px solid #6E5A30}
+.gallery{columns:3 260px;column-gap:40px;margin-bottom:56px;padding:7px}
+.gallery:last-child{margin-bottom:0}
+.frame{display:block;width:100%;margin:0 0 40px;padding:14px 14px 0;border:0;background:#0C0B09;cursor:zoom-in;break-inside:avoid;box-shadow:0 0 0 1px #A88744,0 0 0 6px #0C0B09,0 0 0 7px #5C4B28;color:inherit;font:inherit}
+.frame img{width:100%;height:auto;transition:opacity .3s}
+.frame:hover img{opacity:.88}
+.plaque{display:block;padding:12px 4px 13px;font-family:var(--display);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#CBA762;text-align:center}
+.plaque i{font-style:italic;text-transform:none;letter-spacing:.02em;font-size:15px;color:#E9E4D8}
 
 .lightbox{position:fixed;inset:0;z-index:50;background:rgba(12,14,11,.94);display:grid;place-items:center;padding:max(56px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(56px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .lightbox img{max-height:100%;max-width:100%;object-fit:contain}
@@ -186,11 +216,12 @@ footer .roman{opacity:1}
   .share-wrap{grid-template-columns:minmax(0,1fr)}
   .qr-card{justify-self:center;width:min(240px,100%)}
   .facts{grid-template-columns:minmax(0,1fr)}
+  .cc-list>div{grid-template-columns:minmax(0,1fr)}
   .schedule li{grid-template-columns:88px minmax(0,1fr);gap:14px}
   .venue{padding:24px}
   .count{gap:20px}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.seal-anim .ring{animation:none}}
 </style>
 </head>
 <body>
@@ -199,10 +230,13 @@ footer .roman{opacity:1}
 <header class="cover" id="top">
   <div class="cover-text">
     <nav aria-label="Sections">
-      <a href="#story">Our story</a><a href="#day">The day</a><a href="#travel">Travel</a><a href="#rsvp">RSVP</a><a href="#honeymoon">Honeymoon</a><a href="#photos">Gallery</a><a href="#share">Share photos</a>
+      <a href="#story">Our story</a><a href="#day">The day</a><a href="#travel">Concierge</a><a href="#rsvp">RSVP</a><a href="#honeymoon">Honeymoon</a><a href="#photos">Gallery</a><a href="#share">Share photos</a>
     </nav>
     <div class="seal">
-      <img src="img/logo.png" alt="Our seal: an interlaced S and G inside a golden serpent ring, dated VI.XVIII.MMXXVII" width="300" height="307">
+      <div class="seal-anim" role="img" aria-label="Our seal: an interlaced S and G inside a golden serpent ring, dated VI.XVIII.MMXXVII">
+        <img class="ring" src="img/seal-ring.png" alt="" width="300" height="307">
+        <img class="letters" src="img/seal-letters.png" alt="" width="300" height="307">
+      </div>
       <h1 class="names">Gillian <span class="amp">&amp;</span> Sean</h1>
     </div>
     <div class="cover-meta">
@@ -226,12 +260,13 @@ footer .roman{opacity:1}
 
 <main>
   <section id="story">
+    <div class="wrap"><div class="flourish" aria-hidden="true"><span></span><img src="img/ornament.png" alt=""><span></span></div></div>
     <div class="wrap story">
       <div class="story-text">
         <div class="eyebrow">Our story</div>
         <h2>She said <em>yes</em> in downtown Dallas.</h2>
         <p class="lede">Sean got down on one knee at Thanks-Giving Square, under the white spiral of the chapel, with the city’s glass towers looking on.</p>
-        <p>What followed was an evening of cocktails, walks through the streets at golden hour, and a lot of laughing. Next June we’re trading the skyline for the vines, and we’d love for you to be there.</p>
+        <p>Afterward we walked the streets at golden hour and celebrated over cocktails at The Adolphus, the grand old hotel downtown. Next June we’re trading the skyline for the vines, and we’d love for you to be there.</p>
       </div>
       <div class="story-photos">
         <figure class="wide"><img src="img/1033.jpg" alt="Gillian covers her face in surprise as Sean kneels holding an open ring box" loading="lazy"><figcaption>The moment.</figcaption></figure>
@@ -248,6 +283,7 @@ footer .roman{opacity:1}
 
   <section id="day">
     <div class="wrap">
+      <div class="flourish" aria-hidden="true"><span></span><img src="img/ornament.png" alt=""><span></span></div>
       <div class="day-head">
         <div>
           <div class="eyebrow">The wedding day</div>
@@ -273,17 +309,29 @@ footer .roman{opacity:1}
     </div>
   </section>
 
-  <section id="travel" class="alt">
-    <div class="wrap info">
-      <div>
-        <div class="eyebrow">Travel &amp; good to know</div>
-        <h2>Getting to <em>McKinney</em></h2>
+  <section id="travel">
+    <div class="wrap">
+      <div class="flourish" aria-hidden="true"><span></span><img src="img/ornament.png" alt=""><span></span></div>
+      <div class="concierge-head">
+        <div class="eyebrow">Accommodations &amp; transport</div>
+        <h2>With the compliments of the <em>concierge</em></h2>
       </div>
-      <div class="facts">
-        <div><h3>Flying in</h3><p>McKinney is north of Dallas. Dallas/Fort Worth International (DFW) and Dallas Love Field (DAL) are both within about an hour’s drive of the vineyard.</p></div>
-        <div><h3>Where to stay</h3><p>We’re arranging a block of hotel rooms nearby for out-of-town guests.</p><span class="soon">Details coming soon</span></div>
-        <div><h3>What to wear</h3><p>We’ll share the dress code with your invitation.</p><span class="soon">Details coming soon</span></div>
-        <div><h3>June in Texas</h3><p>Expect a warm day, often in the 90s °F. Bring sunglasses, and keep in mind that heels can sink into grass.</p></div>
+      <div class="concierge">
+        <div class="cc-crest">
+          <img src="img/ornament.png" alt="" width="46" height="46">
+          <b>Concierge</b>
+          <small>For the guests of Gillian &amp; Sean · June 2027</small>
+        </div>
+        <dl class="cc-list">
+          <div><dt>Arriving by air</dt><dd>Dallas/Fort Worth International (DFW) and Dallas Love Field (DAL) are each about an hour’s drive from the vineyard.</dd></div>
+          <div><dt>Your stay</dt><dd>We are reserving a block of rooms near the vineyard for our guests.<span class="soon" style="margin:0">Details to follow</span></dd></div>
+          <div><dt>A night in Dallas</dt><dd><strong>The Adolphus</strong>Adolphus Busch’s grand 1912 hotel at 1321 Commerce Street, where we celebrated the evening of our engagement. If you’re making a weekend of it, we can’t recommend it enough. The vineyard is about an hour’s drive north.</dd></div>
+          <div><dt>To the vineyard</dt><dd>Transportation for the evening, including any shuttle times, will be shared here.<span class="soon" style="margin:0">Details to follow</span></dd></div>
+          <div><dt>Your ride home</dt><dd>The celebration ends at midnight. Please arrange your ride in advance, as rideshares can be scarce that late outside the city.</dd></div>
+          <div><dt>Attire</dt><dd>To be announced with your invitation.<span class="soon" style="margin:0">Details to follow</span></dd></div>
+          <div><dt>The weather</dt><dd>June in North Texas is warm, often in the 90s °F. Sunglasses are wise, and block heels are kinder to the lawn.</dd></div>
+        </dl>
+        <p class="cc-sign">We look forward to welcoming you.</p>
       </div>
     </div>
   </section>
@@ -293,7 +341,7 @@ footer .roman{opacity:1}
     <div class="rsvp-text">
       <div class="eyebrow" style="opacity:.75">RSVP</div>
       <h2>Kindly <em>reply</em></h2>
-      <p class="rsvp-by">Friday, June 18, 2027</p>
+      <p class="rsvp-by">Kindly reply by the seventh of May, 2027</p>
       <p>Let us know if you can make it, who’s coming with you, and anything we should know about food. One reply per invitation is perfect.</p>
       <div class="form-card" id="rsvp-card">
         <div class="waiting">
@@ -304,7 +352,8 @@ footer .roman{opacity:1}
     </div>
   </section>
 
-  <section id="honeymoon" class="alt">
+  <section id="honeymoon">
+    <div class="wrap"><div class="flourish" aria-hidden="true"><span></span><img src="img/ornament.png" alt=""><span></span></div></div>
     <div class="wrap split">
       <div>
         <div class="eyebrow">Gifts</div>
@@ -317,20 +366,22 @@ footer .roman{opacity:1}
     </div>
   </section>
 
-  <section id="photos">
+  <section id="photos" class="gallery-band">
     <div class="wrap">
       <div class="gal-head">
-        <div>
-          <div class="eyebrow">Engagement</div>
-          <h2>A few <em>favorites</em></h2>
-        </div>
-        <p>Tap any photo to see it larger.</p>
+        <div class="eyebrow">The engagement portraits</div>
+        <h2>A private <em>collection</em></h2>
+        <p>Downtown Dallas and The Adolphus. Select any portrait to view it larger.</p>
       </div>
-      <div class="gallery" id="gallery"></div>
+      <h3 class="gal-group">In colour</h3>
+      <div class="gallery" id="gal-colour"></div>
+      <h3 class="gal-group">In black &amp; white</h3>
+      <div class="gallery" id="gal-bw"></div>
     </div>
   </section>
 
-  <section id="share" class="alt">
+  <section id="share">
+    <div class="wrap"><div class="flourish" aria-hidden="true"><span></span><img src="img/ornament.png" alt=""><span></span></div></div>
     <div class="wrap split">
       <div>
         <div class="eyebrow">On the day</div>
@@ -419,31 +470,37 @@ var LINKS = {
   }
   tick(); setInterval(tick,6e4);
 
-  // Gallery
+  // Gallery: framed portraits, catalogued with Roman numerals
   var photos=[
-    ['1046','Gillian laughing, hair blowing, as she walks hand in hand with Sean'],
-    ['1053','Gillian laughing while holding Sean’s hands across a table'],
-    ['1048','Gillian and Sean walking hand in hand across a sunlit Dallas street'],
-    ['1051','Gillian holding Sean’s face as they lean in close in front of a colorful painted wall'],
-    ['1056','Gillian and Sean clinking glasses on a velvet sofa'],
-    ['1054','Gillian and Sean by a curtained window, in black and white'],
-    ['1047','Gillian smiling back at Sean as they walk past a glass building'],
-    ['1058','Gillian and Sean toasting on a leather sofa'],
-    ['1059','Gillian and Sean kissing, drinks in hand, in black and white'],
-    ['1055','Gillian and Sean seated on a velvet sofa with cocktails'],
-    ['1061','Gillian and Sean sharing a kiss in a wood-paneled elevator'],
-    ['1044','Their hands just touching as they walk, in black and white'],
-    ['1060','Gillian looking over her shoulder at the camera, with Sean beside her'],
-    ['1062','Gillian and Sean glimpsed through a narrow doorway']
+    ['1046','Golden hour','c','Gillian laughing, hair blowing, as she walks hand in hand with Sean'],
+    ['1048','Downtown','c','Gillian and Sean walking hand in hand across a sunlit Dallas street'],
+    ['1047','Over the shoulder','c','Gillian smiling back at Sean as they walk past a glass building'],
+    ['1051','The painted wall','c','Gillian holding Sean’s face as they lean in close in front of a colorful painted wall'],
+    ['1053','Laughter','c','Gillian laughing while holding Sean’s hands across a table'],
+    ['1058','Cocktails','c','Gillian and Sean toasting on a leather sofa'],
+    ['1056','A toast','c','Gillian and Sean clinking glasses on a velvet sofa'],
+    ['1055','On velvet','c','Gillian and Sean seated on a velvet sofa with cocktails'],
+    ['1057','The gilded room','c','Gillian and Sean smiling at each other, drinks in hand, in a gilded dining room'],
+    ['1061','The elevator','c','Gillian and Sean sharing a kiss in a wood-paneled elevator'],
+    ['1060','A glance','c','Gillian looking over her shoulder at the camera, with Sean beside her'],
+    ['1062','Through the door','c','Gillian and Sean glimpsed through a narrow doorway'],
+    ['1036','Yes','b','Gillian and Sean embracing and kissing on a plaza, in black and white'],
+    ['1052','Table for two','b','Gillian and Sean holding hands across a white tablecloth in front of a bright window, in black and white'],
+    ['1054','By the window','b','Gillian and Sean by a curtained window, in black and white'],
+    ['1059','The kiss','b','Gillian and Sean kissing, drinks in hand, in black and white'],
+    ['1044','Hand in hand','b','Their hands just touching as they walk, in black and white']
   ];
-  var g=document.getElementById('gallery');
+  function roman(n){var m=[[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']],o='';m.forEach(function(x){while(n>=x[0]){o+=x[1];n-=x[0];}});return o;}
+  var groups={c:document.getElementById('gal-colour'),b:document.getElementById('gal-bw')};
   photos.forEach(function(p,i){
-    var b=document.createElement('button'); b.type='button'; b.setAttribute('aria-label','View larger: '+p[1]);
-    var im=document.createElement('img'); im.src='img/'+p[0]+'.jpg'; im.alt=p[1]; im.loading='lazy';
-    b.appendChild(im); b.addEventListener('click',function(){open(i)}); g.appendChild(b);
+    var b=document.createElement('button'); b.type='button'; b.className='frame'; b.setAttribute('aria-label','View larger: '+p[3]);
+    var im=document.createElement('img'); im.src='img/'+p[0]+'.jpg'; im.alt=p[3]; im.loading='lazy';
+    var pl=document.createElement('span'); pl.className='plaque'; pl.textContent='No. '+roman(i+1)+' · ';
+    var t=document.createElement('i'); t.textContent=p[1]; pl.appendChild(t);
+    b.appendChild(im); b.appendChild(pl); b.addEventListener('click',function(){open(i)}); groups[p[2]].appendChild(b);
   });
   var lb=document.getElementById('lb'), li=document.getElementById('lb-img'), cur=0, last=null;
-  function show(i){cur=(i+photos.length)%photos.length; li.src='img/'+photos[cur][0]+'.jpg'; li.alt=photos[cur][1];}
+  function show(i){cur=(i+photos.length)%photos.length; li.src='img/'+photos[cur][0]+'.jpg'; li.alt=photos[cur][3];}
   function open(i){last=document.activeElement; show(i); lb.hidden=false; document.getElementById('lb-close').focus();}
   function close(){lb.hidden=true; if(last)last.focus();}
   document.getElementById('lb-close').onclick=close;
