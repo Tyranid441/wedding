@@ -62,15 +62,30 @@ nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:5px}
 .seal{display:grid;justify-items:start;gap:28px}
 .seal-anim{position:relative;width:min(300px,62vw);aspect-ratio:878/900}
 .seal-anim img{position:absolute;inset:0;width:100%;height:100%}
-/* Ouroboros: the serpent slithers out head-first from its own mouth, circles once clockwise
-   with its body trailing behind, and closes on its tail. One progress value (--p) drives both the
-   rotation and the visible body length, so the tail end stays pinned at the mouth (14deg). */
-@property --p{syntax:'<number>';inherits:false;initial-value:1}
-.seal-anim .ring{--p:1;transform:rotate(calc((var(--p) - 1) * 360deg));
-  -webkit-mask-image:conic-gradient(from calc(14deg - var(--p) * 360deg) at 50% 50%,#000 calc(var(--p) * 360deg),transparent 0);
-  mask-image:conic-gradient(from calc(14deg - var(--p) * 360deg) at 50% 50%,#000 calc(var(--p) * 360deg),transparent 0);
-  animation:ouroboros 3.6s cubic-bezier(.42,.04,.22,1) .3s both;will-change:transform}
+/* Ouroboros: the serpent slithers out head-first and circles once clockwise with its body trailing,
+   opening and closing its jaw as it goes, then bites its own tail. One progress value (--p) drives the
+   rotation and the visible body length together, so the tail end stays pinned at the mouth. */
+@property --p{syntax:'<number>';inherits:true;initial-value:1}
+.seal-anim .snake{position:absolute;inset:0;--p:1;transform-origin:49.94% 51.06%;transform:rotate(calc((var(--p) - 1) * 360deg));
+  animation:ouroboros 3.8s cubic-bezier(.42,.04,.22,1) .3s both,snake-in .5s ease .3s both;will-change:transform}
+.seal-anim .snake img{position:absolute;inset:0;width:100%;height:100%}
+.seal-anim .body{-webkit-mask-image:conic-gradient(from calc(10deg - var(--p) * 360deg) at 49.94% 51.06%,#000 calc(var(--p) * 360deg),transparent 0);
+  mask-image:conic-gradient(from calc(10deg - var(--p) * 360deg) at 49.94% 51.06%,#000 calc(var(--p) * 360deg),transparent 0)}
+.seal-anim .jaw{transform-origin:46.7% 10.66%;animation:chomp 3.8s linear .3s both}
+.seal-anim .tail{animation:bite 3.8s linear .3s both}
 @keyframes ouroboros{from{--p:0}to{--p:1}}
+@keyframes snake-in{from{opacity:0}to{opacity:1}}
+@keyframes chomp{
+  0%{transform:rotate(-16deg);animation-timing-function:ease-in-out}
+  13%{transform:rotate(0deg);animation-timing-function:ease-in-out}
+  26%{transform:rotate(-16deg);animation-timing-function:ease-in-out}
+  40%{transform:rotate(0deg);animation-timing-function:ease-in-out}
+  54%{transform:rotate(-16deg);animation-timing-function:ease-in-out}
+  68%{transform:rotate(0deg);animation-timing-function:ease-in-out}
+  80%{transform:rotate(-16deg);animation-timing-function:ease-out}
+  92%{transform:rotate(7deg);animation-timing-function:ease-in}
+  100%{transform:rotate(0deg)}}
+@keyframes bite{0%,94%{opacity:0}98%,100%{opacity:1}}
 .names{font-family:var(--display);font-weight:400;font-size:clamp(44px,6vw,84px);line-height:.95;margin:0;letter-spacing:-.015em}
 .names .amp{font-style:italic;color:var(--gold-lt);font-size:.8em;padding:0 .08em}
 .roman{font-family:var(--display);letter-spacing:.24em;font-size:15px;color:var(--gold-lt)}
@@ -227,7 +242,7 @@ footer .roman{opacity:1}
   .venue{padding:24px}
   .count{gap:20px}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}.seal-anim .ring{animation:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.seal-anim .snake,.seal-anim .jaw,.seal-anim .tail{animation:none}}
 </style>
 </head>
 <body>
@@ -240,7 +255,12 @@ footer .roman{opacity:1}
     </nav>
     <div class="seal">
       <div class="seal-anim" role="img" aria-label="Our seal: an interlaced S and G inside a golden serpent ring, dated VI.XVIII.MMXXVII">
-        <img class="ring" src="img/seal-ring.png" alt="" width="300" height="307">
+        <div class="snake">
+          <img class="body" src="img/snake-body.png" alt="" width="300" height="307">
+          <img class="jaw" src="img/snake-jaw.png" alt="" width="300" height="307">
+          <img class="tail" src="img/snake-tail.png" alt="" width="300" height="307">
+          <img class="head" src="img/snake-head.png" alt="" width="300" height="307">
+        </div>
         <img class="letters" src="img/seal-letters.png" alt="" width="300" height="307">
       </div>
       <h1 class="names">Gillian <span class="amp">&amp;</span> Sean</h1>
