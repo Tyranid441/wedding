@@ -62,9 +62,15 @@ nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:5px}
 .seal{display:grid;justify-items:start;gap:28px}
 .seal-anim{position:relative;width:min(300px,62vw);aspect-ratio:878/900}
 .seal-anim img{position:absolute;inset:0;width:100%;height:100%}
-@property --sweep{syntax:'<angle>';inherits:false;initial-value:360deg}
-.seal-anim .ring{--sweep:360deg;-webkit-mask-image:conic-gradient(from -14deg at 50% 50%,#000 var(--sweep),transparent 0);mask-image:conic-gradient(from -14deg at 50% 50%,#000 var(--sweep),transparent 0);animation:draw-ring 2.8s cubic-bezier(.55,.06,.25,1) .25s both}
-@keyframes draw-ring{from{--sweep:0deg}to{--sweep:360deg}}
+/* Ouroboros: the serpent slithers out head-first from its own mouth, circles once clockwise
+   with its body trailing behind, and closes on its tail. One progress value (--p) drives both the
+   rotation and the visible body length, so the tail end stays pinned at the mouth (14deg). */
+@property --p{syntax:'<number>';inherits:false;initial-value:1}
+.seal-anim .ring{--p:1;transform:rotate(calc((var(--p) - 1) * 360deg));
+  -webkit-mask-image:conic-gradient(from calc(14deg - var(--p) * 360deg) at 50% 50%,#000 calc(var(--p) * 360deg),transparent 0);
+  mask-image:conic-gradient(from calc(14deg - var(--p) * 360deg) at 50% 50%,#000 calc(var(--p) * 360deg),transparent 0);
+  animation:ouroboros 3.6s cubic-bezier(.42,.04,.22,1) .3s both;will-change:transform}
+@keyframes ouroboros{from{--p:0}to{--p:1}}
 .names{font-family:var(--display);font-weight:400;font-size:clamp(44px,6vw,84px);line-height:.95;margin:0;letter-spacing:-.015em}
 .names .amp{font-style:italic;color:var(--gold-lt);font-size:.8em;padding:0 .08em}
 .roman{font-family:var(--display);letter-spacing:.24em;font-size:15px;color:var(--gold-lt)}
